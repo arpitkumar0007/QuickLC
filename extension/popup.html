@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LeetCode Templates</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/editor/editor.main.min.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+
+
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+          <span>Templates</span>
+        </div>
+      </div>
+      
+
+      <div class="search-bar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Search templates...">
+      </div>
+
+      <div class="templates-list" id="templatesList">
+        <div class="loading">Loading templates...</div>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="icon-btn" id="addTemplateBtn" title="Add New Template">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+        <button class="icon-btn" id="reloadBtn" title="Reload Templates">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+
+      <!-- Template View -->
+      <div class="template-view" id="templateView">
+        <div class="welcome-screen">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <h2>LeetCode Template Manager</h2>
+          <p>Select a template from the sidebar to view and insert</p>
+        </div>
+
+        <div class="editor-container" id="editorContainer" style="display: none;">
+          <div class="editor-header">
+            <div class="tabs">
+              <div class="tab active" id="currentTab">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+                <span id="tabName">template.cpp</span>
+              </div>
+            </div>
+            <div class="editor-actions">
+              <select id="languageSelect" class="language-select">
+                <option value="cpp">C++</option>
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="javascript">JavaScript</option>
+                <option value="typescript">TypeScript</option>
+                <option value="go">Go</option>
+                <option value="rust">Rust</option>
+              </select>
+              <button class="action-btn" id="insertBtn" title="Insert to LeetCode">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+                Insert
+              </button>
+            </div>
+          </div>
+          <div id="monacoEditor"></div>
+        </div>
+      </div>
+
+
+      <!-- Add/Edit Template Form -->
+      <div class="form-view" id="formView" style="display: none;">
+        <div class="form-header">
+          <h3 id="formTitle">New Template</h3>
+          <button class="icon-btn" id="closeFormBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="form-content">
+          <div class="form-group">
+            <label for="tplName">Template Name</label>
+            <input type="text" id="tplName" placeholder="e.g., Binary Search Template">
+          </div>
+          
+          <div class="form-group">
+            <label for="tplLanguage">Language</label>
+            <select id="tplLanguage" class="language-select">
+              <option value="cpp">C++</option>
+              <option value="python">Python</option>
+              <option value="java">Java</option>
+              <option value="javascript">JavaScript</option>
+              <option value="typescript">TypeScript</option>
+              <option value="go">Go</option>
+              <option value="rust">Rust</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="tplCode">Template Code</label>
+            <div id="formEditor"></div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn-secondary" id="cancelBtn">Cancel</button>
+            <button class="btn-primary" id="saveBtn">Save Template</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  
+  <script src="vendor/monaco-editor/min/vs/loader.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

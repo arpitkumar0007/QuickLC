@@ -1,0 +1,6 @@
+# Dependencies
+/backend/node_modules
+/extension/vendor
+
+# Environment variables
+.env
