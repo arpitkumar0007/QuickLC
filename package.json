@@ -1,0 +1,14 @@
+{
+  "name": "quicklc",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Chrome extension for inserting code templates into the LeetCode editor.",
+  "scripts": {
+    "setup": "node scripts/vendor-monaco.js",
+    "postinstall": "node scripts/vendor-monaco.js",
+    "package": "node scripts/package.js"
+  },
+  "devDependencies": {
+    "monaco-editor": "0.52.2"
+  }
+}

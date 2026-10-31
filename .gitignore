@@ -1,6 +1,9 @@
 # Dependencies
-/backend/node_modules
-/extension/vendor
+node_modules/
+/extension/vendor/
+
+# Build output
+/dist/
 
 # Environment variables
 .env

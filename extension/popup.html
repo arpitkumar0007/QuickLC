@@ -1,34 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>LeetCode Templates</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/editor/editor.main.min.css">
+  <meta charset="utf-8">
+  <title>QuickLC</title>
   <link rel="stylesheet" href="popup.css">
 </head>
-
-
-
 <body>
   <div class="container">
     <!-- Sidebar -->
-    <div class="sidebar">
+    <aside class="sidebar">
       <div class="sidebar-header">
         <div class="logo">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-          </svg>
-          <span>Templates</span>
+          <img src="icons/icon32.png" width="18" height="18" alt="">
+          <span>QuickLC</span>
         </div>
+        <button class="icon-btn" id="openTabBtn" title="Open in a full tab">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </button>
       </div>
-      
 
       <div class="search-bar">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"></circle>
           <path d="m21 21-4.35-4.35"></path>
         </svg>
-        <input type="text" id="searchInput" placeholder="Search templates...">
+        <input type="text" id="searchInput" placeholder="Search templates..." autocomplete="off">
       </div>
 
       <div class="templates-list" id="templatesList">
@@ -36,63 +36,72 @@
       </div>
 
       <div class="sidebar-footer">
-        <button class="icon-btn" id="addTemplateBtn" title="Add New Template">
+        <button class="icon-btn" id="addTemplateBtn" title="New template">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="12" y1="5" x2="12" y2="19"></line>
             <line x1="5" y1="12" x2="19" y2="12"></line>
           </svg>
         </button>
-        <button class="icon-btn" id="reloadBtn" title="Reload Templates">
+        <div class="spacer"></div>
+        <button class="icon-btn" id="importBtn" title="Import templates (JSON)">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="23 4 23 10 17 10"></polyline>
-            <polyline points="1 20 1 14 7 14"></polyline>
-            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
         </button>
+        <button class="icon-btn" id="exportBtn" title="Export templates (JSON)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+        </button>
+        <input type="file" id="importFile" accept=".json,application/json" hidden>
       </div>
-    </div>
-
+    </aside>
 
     <!-- Main Content -->
-    <div class="main-content">
-
-
+    <main class="main-content">
       <!-- Template View -->
-      <div class="template-view" id="templateView">
-        <div class="welcome-screen">
+      <section class="template-view" id="templateView">
+        <div class="welcome-screen" id="welcomeScreen">
           <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-            <polyline points="10 9 9 9 8 9"></polyline>
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
           </svg>
-          <h2>LeetCode Template Manager</h2>
-          <p>Select a template from the sidebar to view and insert</p>
+          <h2>QuickLC</h2>
+          <p id="welcomeText">Select a template from the sidebar to view and insert it.</p>
+          <button class="btn-primary" id="welcomeAddBtn">New template</button>
         </div>
 
-        <div class="editor-container" id="editorContainer" style="display: none;">
+        <div class="editor-container" id="editorContainer" hidden>
           <div class="editor-header">
-            <div class="tabs">
-              <div class="tab active" id="currentTab">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="16 18 22 12 16 6"></polyline>
-                  <polyline points="8 6 2 12 8 18"></polyline>
-                </svg>
-                <span id="tabName">template.cpp</span>
-              </div>
+            <div class="tab active">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+              <span id="tabName">template.cpp</span>
             </div>
             <div class="editor-actions">
-              <select id="languageSelect" class="language-select">
-                <option value="cpp">C++</option>
-                <option value="python">Python</option>
-                <option value="java">Java</option>
-                <option value="javascript">JavaScript</option>
-                <option value="typescript">TypeScript</option>
-                <option value="go">Go</option>
-                <option value="rust">Rust</option>
+              <button class="icon-btn" id="copyBtn" title="Copy to clipboard">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+              <button class="icon-btn" id="editBtn" title="Edit template">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 20h9"></path>
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                </svg>
+              </button>
+              <select id="insertMode" class="language-select" title="Where to insert in the LeetCode editor">
+                <option value="top">At top</option>
+                <option value="cursor">At cursor</option>
               </select>
-              <button class="action-btn" id="insertBtn" title="Insert to LeetCode">
+              <button class="action-btn" id="insertBtn" title="Insert into LeetCode (Ctrl+Enter)">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
@@ -100,58 +109,51 @@
               </button>
             </div>
           </div>
-          <div id="monacoEditor"></div>
+          <div class="code-editor" id="viewEditor"></div>
         </div>
-      </div>
-
+      </section>
 
       <!-- Add/Edit Template Form -->
-      <div class="form-view" id="formView" style="display: none;">
+      <section class="form-view" id="formView" hidden>
         <div class="form-header">
           <h3 id="formTitle">New Template</h3>
-          <button class="icon-btn" id="closeFormBtn">
+          <button class="icon-btn" id="closeFormBtn" title="Close (Esc)">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
           </button>
         </div>
-        
+
         <div class="form-content">
-          <div class="form-group">
-            <label for="tplName">Template Name</label>
-            <input type="text" id="tplName" placeholder="e.g., Binary Search Template">
-          </div>
-          
-          <div class="form-group">
-            <label for="tplLanguage">Language</label>
-            <select id="tplLanguage" class="language-select">
-              <option value="cpp">C++</option>
-              <option value="python">Python</option>
-              <option value="java">Java</option>
-              <option value="javascript">JavaScript</option>
-              <option value="typescript">TypeScript</option>
-              <option value="go">Go</option>
-              <option value="rust">Rust</option>
-            </select>
+          <div class="form-row">
+            <div class="form-group grow">
+              <label for="tplName">Template name</label>
+              <input type="text" id="tplName" placeholder="e.g., Binary Search" maxlength="100" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label for="tplLanguage">Language</label>
+              <select id="tplLanguage" class="language-select"></select>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="tplCode">Template Code</label>
-            <div id="formEditor"></div>
+          <div class="form-group grow-y">
+            <label>Template code</label>
+            <div class="code-editor bordered" id="formEditor"></div>
           </div>
 
           <div class="form-actions">
+            <span class="hint">Ctrl+S to save · Esc to cancel</span>
             <button class="btn-secondary" id="cancelBtn">Cancel</button>
-            <button class="btn-primary" id="saveBtn">Save Template</button>
+            <button class="btn-primary" id="saveBtn">Save template</button>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+
+      <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    </main>
   </div>
 
-
-  
   <script src="vendor/monaco-editor/min/vs/loader.js"></script>
   <script src="popup.js"></script>
 </body>
